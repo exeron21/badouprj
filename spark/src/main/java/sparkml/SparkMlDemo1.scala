@@ -18,10 +18,18 @@ object SparkMlDemo1 {
 
     val sc = ss.sparkContext
     // 定义样例类
-    case class Wine(FixedAcidity: Double, VolatileAcidity: Double,
-                    CitricAcid: Double, ResidualSugar: Double, Chlorides: Double,
-                    FreeSulfurDioxide: Double, TotalSulfurDioxide: Double, Density: Double, PH:
-                    Double, Sulphates: Double, Alcohol: Double, Quality: Double)
+    case class Wine(FixedAcidity: Double,
+                    VolatileAcidity: Double,
+                    CitricAcid: Double,
+                    ResidualSugar: Double,
+                    Chlorides: Double,
+                    FreeSulfurDioxide: Double,
+                    TotalSulfurDioxide: Double,
+                    Density: Double,
+                    PH: Double,
+                    Sulphates: Double,
+                    Alcohol: Double,
+                    Quality: Double)
 
     // 变换数据
     val wineDataRdd = sc.textFile(dir + "winequality-red.csv").map(_.split(";"))
@@ -48,7 +56,7 @@ object SparkMlDemo1 {
         w.Density, w.PH, w.Sulphates, w.Alcohol))).toDF("label", "features")
 
 
-    val st = StructType(List(StructField("label",DoubleType), new StructField("feature",DoubleType)))
+    val st = StructType(List(StructField("label",DoubleType), StructField("feature",DoubleType)))
 //    val trainingDF = ss.createDataFrame(trainingRDD)
 //    val trainingDF = ss.createDataFrame(wineDataRdd2, st)
     trainingDF.show
