@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+
+        <property>
+		<name>dfs.nameservices</name>
+		<value>mycluster</value>
+	</property>
+	
+	<property>
+		<name>dfs.ha.namenodes.mycluster</name>
+		<value>nn1,nn2</value>
+	</property>
+
+	<property>
+		<name>dfs.namenode.rpc-address.mycluster.nn1</name>
+		<value>master:8020</value>
+	</property>
+
+	<property>
+		<name>dfs.namenode.rpc-address.mycluster.nn2</name>
+		<value>slave5:8020</value>
+	</property>         
+
+        <property>
+            <name>dfs.namenode.http-address.mycluster.nn1</name>
+            <value>master:50070</value>
+        </property>
+
+        <property>
+            <name>dfs.namenode.http-address.mycluster.nn2</name>
+            <value>slave5:50070</value>
+        </property>
+
+        <property>
+            <name>dfs.namenode.shared.edits.dir</name>
+            <value>qjournal://slave1:8485;slave2:8485;slave3:8485/mycluster</value>
+        </property>
+
+        <property>
+            <name>dfs.client.failover.proxy.provider.mycluster</name>
+            <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+        </property>
+
+        <property>
+            <name>dfs.ha.fencing.methods</name>
+            <value>sshfence</value>
+        </property>
+        <property>
+            <name>dfs.ha.fencing.ssh.private-key-files</name>
+            <value>/home/hdp/.ssh/id_rsa</value>
+        </property>
+
+	<property>
+            <name>dfs.journalnode.edits.dir</name>
+            <value>/home/hdp/hadoop/journal</value>
+        </property>
+
+	<property>
+                <name>dfs.replication</name>
+                <value>3</value>
+        </property>
+
+	<property>
+                <name>dfs.permissions</name>
+                <value>false</value>
+        </property>
+        <property>
+                <name>dfs.namenode.name.dir</name>
+                <value>file:///${hadoop.tmp.dir}/dfs/name1,file:///${hadoop.tmp.dir}/dfs/name2</value>
+        </property>
+        <property>
+                <name>dfs.datanode.data.dir</name>
+                <value>file:///${hadoop.tmp.dir}/dfs/data1,file:///${hadoop.tmp.dir}/dfs/data2</value>
+        </property>
+        <property>
+                <name>dfs.namenode.secondary.http-address</name>
+                <value>slave5:50090</value>
+        </property>
+	<property>
+		<name>dfs.ha.automatic-failover.enabled</name>
+		<value>true</value>
+	</property>
+</configuration>

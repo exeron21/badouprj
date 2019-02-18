@@ -3,6 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/badouprj.iml" filepath="$PROJECT_DIR$/badouprj.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cf/cf.iml" filepath="$PROJECT_DIR$/cf/cf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/flink/flink.iml" filepath="$PROJECT_DIR$/flink/flink.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hbase/hbase.iml" filepath="$PROJECT_DIR$/hbase/hbase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/python-module/python-module.iml" filepath="$PROJECT_DIR$/python-module/python-module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recommend/recommend.iml" filepath="$PROJECT_DIR$/recommend/recommend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spark/spark.iml" filepath="$PROJECT_DIR$/spark/spark.iml" />
       <module fileurl="file://$PROJECT_DIR$/spark-streaming/spark-streaming.iml" filepath="$PROJECT_DIR$/spark-streaming/spark-streaming.iml" />
     </modules>
   </component>

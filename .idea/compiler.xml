@@ -6,10 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="cf" />
+        <module name="flink" />
+        <module name="hbase" />
+        <module name="spark" />
         <module name="spark-streaming" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="cf" target="1.8" />
+      <module name="flink" target="1.8" />
+      <module name="hbase" target="1.8" />
+      <module name="spark" target="1.8" />
       <module name="spark-streaming" target="1.8" />
     </bytecodeTargetLevel>
   </component>

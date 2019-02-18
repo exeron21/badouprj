@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="org.apache.hive.jdbc.HiveData Source - jdbc:hive2://master:10000/badou" uuid="70ba6230-3cf9-4414-b20a-ff01d578fa8d">
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.apache.hive.jdbc.HiveDriver</jdbc-driver>
+      <jdbc-url>jdbc:hive2://master:10000/badou</jdbc-url>
+    </data-source>
+  </component>
+</project>
