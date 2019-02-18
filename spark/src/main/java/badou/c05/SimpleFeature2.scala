@@ -49,12 +49,12 @@ object SimpleFeature2 {
 
     val userOrdCnt = orders.selectExpr("user_id", "order_id")
       .groupBy("user_id")
-      .count()
+      .count().as("cnt")
 
     val op = orders.join(priors, "order_id").select("user_id", "product_id")
     import orders.sparkSession.implicits._
     // 第3个特征
-    op.rdd.map(x=>{
+    val userFeat3 = op.rdd.map(x=>{
       (x(0).toString, x(1).toString)
     }).groupByKey().mapValues({
       _.toSet.mkString("_")
@@ -68,7 +68,14 @@ object SimpleFeature2 {
       (set.size, set.mkString("_"))
     }.toDF("user_id", "tup").selectExpr("user_id", "tup._1 as size", "tup._2 as list")
 
-    val userFeat = userFeat34
+    val userFeat5 = op.groupBy("user_id", "order_id")
+      .count().as("user_order_count")
+
+    val userFeat = userOrdGap.join(userOrdCnt, "user_id")
+      .join(userFeat34, "user_id")
+      .join(userFeat5, "user_id")
+      .selectExpr("user_id")
+
     (userFeat, prodFeat)
   }
 }
