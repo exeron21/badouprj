@@ -1,7 +1,8 @@
-/*package sparkml
+package sparkml
 
-import org.apache.hadoop.hive.ql.exec.spark.session.SparkSession
 import org.apache.spark.ml.regression.LinearRegression
+import org.apache.spark.mllib.linalg.Vectors
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.types._
 
 
@@ -10,7 +11,7 @@ object SparkMlDemo1 {
     // 数据目录
     val dir = "E:\\spark_ml\\wines\\"
 
-    val ss = SparkSession.builder
+    val ss = SparkSession.builder()
       .appName("sparkmldemo")
       .master("local[*]")
       .getOrCreate
@@ -71,4 +72,4 @@ object SparkMlDemo1 {
     val tested = model.transform(testDF).select("features", "label", "prediction")
     tested.show
   }
-}*/
+}
