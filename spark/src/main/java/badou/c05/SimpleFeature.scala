@@ -69,7 +69,7 @@ object SimpleFeature {
       val set = x._2.toSet
         (set.size,set.mkString("==")) }.toDF("user_id","tup").selectExpr("user_id","tup._1 as prod_cnt", "tup._2 as prod_str")
 
-    val userProRcdSize = join.rdd.map(x=>(x(0).toString,x(1).toString))
+    val userProRcdSize2 = join.rdd.map(x=>(x(0).toString,x(1).toString))
       .groupByKey().mapValues{r =>
       val rs = r.toSet
       (rs.size, rs.mkString(","))
@@ -78,7 +78,7 @@ object SimpleFeature {
     //上面这两种结果完全不同,看看PairRDDr的mapValue函数：
     // def mapValues[U](f: (V) ⇒ U): RDD[(K, U)]
     //Pass each value in the key-value pair RDD through a map function without changing the keys; this also retains the original RDD's partitioning.p
-    (userFeat, prodFeat)
+    (userProRcdSize, prodFeat)
   }
 
 }
