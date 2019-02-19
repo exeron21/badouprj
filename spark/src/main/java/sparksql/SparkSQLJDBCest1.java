@@ -1,4 +1,4 @@
-package sparksql;/*package sparksql;
+package sparksql;
 
 import org.apache.spark.sql.*;
 
@@ -42,4 +42,4 @@ public class SparkSQLJDBCest1 {
         // 表若不存在时会自动创建
         df2.write().jdbc(url,"item_2",properties);
     }
-}*/
+}

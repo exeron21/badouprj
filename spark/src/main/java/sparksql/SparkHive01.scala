@@ -1,4 +1,4 @@
-/*package sparksql
+package sparksql
 
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
@@ -37,4 +37,4 @@ object SparkHive01 {
       println(rs.getString(1))
     }*/
   }
-}*/
+}

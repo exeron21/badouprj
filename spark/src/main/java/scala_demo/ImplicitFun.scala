@@ -1,7 +1,6 @@
 package scala_demo
 
 object ImplicitFun {
-
   def fun1[k,v] {
   }
 

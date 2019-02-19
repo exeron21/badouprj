@@ -1,4 +1,4 @@
-package sparksql;/*package sparksql;
+package sparksql;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
@@ -6,9 +6,6 @@ import org.apache.spark.sql.*;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
-import org.codehaus.janino.Java;
-
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -42,7 +39,6 @@ public class SparkSQLTest1 {
             }
         });
 
-        *//**
         JavaRDD<String> rdd2 = ss.sparkContext().textFile("E:\\spark_test_file\\json1.txt",1)
                 .toJavaRDD();
 
@@ -66,8 +62,6 @@ public class SparkSQLTest1 {
         peopleDf.createOrReplaceTempView("people");
         Dataset<Row> result = ss.sql("select * from people");
         result.show();
-         *//*
-
         df.write().mode(SaveMode.Append).json("E:\\spark_test_file\\df.json");
     }
-}*/
+}

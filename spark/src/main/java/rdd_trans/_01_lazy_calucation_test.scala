@@ -9,7 +9,7 @@ object _01_lazy_calucation_test {
       .setMaster("local[4]")
     val sc = new SparkContext(conf)
     val rdd1 = sc.textFile("e:\\spark\\hello.txt")
-    var rdd2 = rdd1.flatMap(line => {
+    val rdd2 = rdd1.flatMap(line => {
       println("flatMap : " + line)
       line.split("\\|")
     })
