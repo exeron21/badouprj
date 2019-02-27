@@ -7,7 +7,7 @@
   </property>
   <property>
     <name>javax.jdo.option.ConnectionURL</name>
-    <value>jdbc:mysql://192.168.4.30:3306/hive?useUnicode=true</value>
+    <value>jdbc:mysql://master:3306/hive?useUnicode=true</value>
   </property>
   <property>
     <name>javax.jdo.option.ConnectionUserName</name>
