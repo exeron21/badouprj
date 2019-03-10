@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON
 
 import scala.beans.BeanProperty
 
-object JsonAndCaseClass {
+object FastJsonTest {
   case class Orders(@BeanProperty var user_id:String ,@BeanProperty var order_id:String) {
     def this() = this(" ", " ")
   }
