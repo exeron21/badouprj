@@ -15,9 +15,10 @@ object FirstStreaming {
     val ssc = new StreamingContext(conf, Seconds(3))
     Logger.getLogger("org.apache.spark").setLevel(Level.ERROR)
 
-    val lines = ssc.socketTextStream("192.168.4.21", 9999)
+    val lines = ssc.socketTextStream("master", 9999)
     val words = lines.flatMap(_.split(" "))
 //    val wordCount = words.map((_,1)).reduceByKey(_+_)
+
     val wordCount = words.map((_,1)).reduceByKeyAndWindow((a:Int,b:Int)=>a+b, Seconds(30), Seconds(3))
     wordCount.print()
     ssc.start()

@@ -1,5 +1,8 @@
 package util
 
+import java.text.SimpleDateFormat
+import java.util.{Date, Locale}
+
 import scala.beans.BeanProperty
 
 /**
@@ -29,29 +32,86 @@ import scala.beans.BeanProperty
   *
   */
 object ConversionUtil {
-  case class AccessLog(@BeanProperty remoteAddr:String,
-                      @BeanProperty remoteUser:String,
-                      @BeanProperty timeLocal:String,
-                      @BeanProperty request:String,
-                      @BeanProperty status:Int,
-                      @BeanProperty bodyBytesSent:Int,
-                      @BeanProperty httpReferer:String,
-                      @BeanProperty httpUserAgent:String,
-                      @BeanProperty httpXForwardedFor:String)
+  case class AccessLog(remoteAddr:String)
+  /**
+  case class AccessLog(@BeanProperty var remoteAddr:String,
+                      @BeanProperty var remoteUser:String,
+                      @BeanProperty var timeLocal:String,
+                      @BeanProperty var method:String,
+                      @BeanProperty var request:String,
+                      @BeanProperty var httpVersion:String,
+                      @BeanProperty var status:Int,
+                      @BeanProperty var bodyBytesSent:Int,
+                      @BeanProperty var httpReferer:String,
+                      @BeanProperty var httpUserAgent:String,
+                      @BeanProperty var httpXForwardedFor:String)
+               */
 
   // 194.237.142.21 - - [19/Sep/2013:06:26:36 +0000] "GET /wp-content/uploads/2013/07/rstudio-login.png HTTP/1.1" 304 0 "-" "Mozilla/4.0 (compatible;)"
+  /**
+    * 处理逻辑：
+    * 用分隔符" - "(两边有空格)分出remoteAddr
+    * remoteUser忽略
+    * 余下的部分用分隔符"\\[|\\]"分出timeLocal
+    * 余下的部分用分隔符"\""分出
+    * @param line
+    * @return
+    */
   def convertAccessLog(line:String):AccessLog={
-    val arr = line.split("\"")
-    val feg1 = arr(0).split("\\[|\\]")
-    val tmp = feg1(0)
-    val remoteAddr = tmp.split(" ")(0)
-    val timeLocal = feg1(1)
-    return AccessLog(remoteAddr,null,timeLocal,null,0,0,null,null,null)
+    var arr = line.split(" - ")
+    val remoteAddr = arr(0)
+    /**
+    var remain = arr(1)
+    arr = remain.split("\\[|\\]", 3)
+    val timeLocalTmp = arr(1)
+    val date = convertStrToDate(timeLocalTmp, "dd/MMM/yyyy:hh:mm:ss Z", Locale.ENGLISH)
+    val timeLocal = convertDateToStr(date, "yyyy-MM-dd:hh:mm:ss", Locale.CHINESE)
+    arr = remain.split("\"")
+    remain = arr(1)
+    val request_ = remain.split(" ")
+    val method = request_(0)
+    val request = request_(1)
+    val httpVersion = request_(2)
+    remain = arr(2)
+    val statusAndLength = arr(2)
+    var status:Int = 200
+    var bodyBytesSent:Int = 0
+
+    try {
+      status = statusAndLength.trim().split(" ")(0).toInt
+    } catch {
+      case e:Exception=>println(e)
+    }
+    try {
+      bodyBytesSent = statusAndLength.trim().split(" ")(1).toInt
+    } catch {
+      case e:Exception=>println(e)
+    }
+    val httpReferer = arr(3)
+    val userAgent = arr(5)
+    return AccessLog(remoteAddr,null,timeLocal,method,request,httpVersion,status,bodyBytesSent,httpReferer,userAgent,null)
+      */
+    return AccessLog(remoteAddr)
   }
 
+  def convertStrToDate(str:String, pattern:String, locale:Locale=Locale.CHINESE):Date={
+    val sdf:SimpleDateFormat = new SimpleDateFormat(pattern, locale)
+    return sdf.parse(str)
+  }
+  def convertDateToStr(date:Date, pattern:String, locale:Locale):String={
+    val sdf:SimpleDateFormat = new SimpleDateFormat(pattern, locale)
+    return sdf.format(date)
+  }
+
+  /**
+    * 如果日期字符串中有英文的Sep（月）Tue（星期），转换的时候一定要加上Locale.ENGLISH
+    * @param args
+    */
   def main(args: Array[String]): Unit = {
-    val arr = ConversionUtil.convertAccessLog("194.237.142.21 - - [19/Sep/2013:06:26:36 +0000] \"GET /wp-content/uploads/2013/07/rstudio-login.png HTTP/1.1\" 304 0 \"-\" \"Mozilla/4.0 (compatible;)\"")
-    println(arr)
+//    val arr = ConversionUtil.convertAccessLog("194.237.142.21 - - [19/Sep/2013:06:26:36 +0000] \"GET /wp-content/uploads/2013/07/rstudio-login.png HTTP/1.1\" 304 0 \"-\" \"Mozilla/4.0 (compatible;)\"")
+//    println(arr)
+//    val str = "12/Sep/2100"
+//    val date = convertStrToDate(str, "dd/MMM/yyyy", Locale.ENGLISH)
+//    println(date)
   }
-
 }
