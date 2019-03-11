@@ -31,7 +31,7 @@ object AccessLogHandler {
       Some(c + p)
     }
 
-    def toDF(rdd:RDD[String]):DataFrame={
+    def rddToDataFrame(rdd:RDD[String]):DataFrame={
       val spark = SparkSession.builder()
         .master("local[*]")
         .appName("accessLogHandler")
@@ -60,10 +60,11 @@ object AccessLogHandler {
         .enableHiveSupport()
         .getOrCreate()
     haha.print()
+    case class Hello (a:String,b:Int)
     import spark.implicits._
-    haha.foreachRDD(y=>{
-      y.foreach(x=>{
-        (x(0), x(1))
+    val df = haha.foreachRDD(x=>{
+      x.map(y=>{
+        Hello(y(0),y(1))
       }).toDF()
     })
 
