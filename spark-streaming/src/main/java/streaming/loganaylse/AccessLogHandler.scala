@@ -1,4 +1,4 @@
-package streaming
+package streaming.loganaylse
 
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkConf
@@ -13,15 +13,15 @@ object AccessLogHandler {
     // sparkStreamingContext
     val conf = new SparkConf().setAppName("firstStreaming")
       .setMaster("local[*]")
-    val ssc = new StreamingContext(conf, Seconds(6))
+    val ssc = new StreamingContext(conf, Seconds(10))
     ssc.checkpoint("e:/checkpoint")
     Logger.getLogger("org.apache.spark").setLevel(Level.ERROR)
 //    Logger.getLogger("org.apache.hive").setLevel(Level.ERROR)
 
     val zk = Array("master", "slave1", "slave2").map(_ + ":2181").mkString(",")
-    val groupId = "g1"
-    val topicSet = "streaming".split(",").toSet
-    val topics = topicSet.map((_, 2)).toMap
+    val groupId = "gtest"
+    val topicSet = "test".split(",").toSet
+    val topics = topicSet.map((_, 3)).toMap
     val lines = KafkaUtils.createStream(ssc, zk, groupId, topics).map(_._2)
 //    val lines = ssc.socketTextStream("master", 9999)
     // streaming更新变量状态的方法一：
@@ -43,32 +43,17 @@ object AccessLogHandler {
       }).toDF()
     }
 
-   /* lines.foreachRDD(rdd=>{
-      val df = toDF(rdd)
-      println("writing badou.accesslog")
-
-      df.write.mode(SaveMode.Append).insertInto("badou.accesslog")
-    })*/
     val haha = lines.map(x=>{
       val arr = x.toString().split(" ")
       (arr(0), 1L)
     }).updateStateByKey(updateFunc)
-
-    val spark = SparkSession.builder()
-        .master("local[*]")
-        .appName("accessLog")
-        .enableHiveSupport()
-        .getOrCreate()
-    haha.print()
-    case class Hello (a:String,b:Int)
-    import spark.implicits._
-    val df = haha.foreachRDD(x=>{
-      x.map(y=>{
-        Hello(y(0),y(1))
-      }).toDF()
+    lines.foreachRDD(x=>{
+      val df = rddToDataFrame(x)
+      df.write.mode(SaveMode.Append).insertInto("badou.accesslog1")
     })
 
-//    haha.map(_._2).reduce(_+_).print()
+    haha.print(10)
+
     // streaming更新变量状态的方法二：
     /**
     val myfunc = (sth:String, curr:Option[Long], state:State[Long])=>{

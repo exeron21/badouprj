@@ -32,20 +32,18 @@ import scala.beans.BeanProperty
   *
   */
 object ConversionUtil {
-  case class AccessLog(remoteAddr:String)
-  /**
-  case class AccessLog(@BeanProperty var remoteAddr:String,
-                      @BeanProperty var remoteUser:String,
-                      @BeanProperty var timeLocal:String,
-                      @BeanProperty var method:String,
-                      @BeanProperty var request:String,
-                      @BeanProperty var httpVersion:String,
-                      @BeanProperty var status:Int,
-                      @BeanProperty var bodyBytesSent:Int,
-                      @BeanProperty var httpReferer:String,
-                      @BeanProperty var httpUserAgent:String,
-                      @BeanProperty var httpXForwardedFor:String)
-               */
+//  case class AccessLog(remoteAddr:String)
+ case class AccessLog(remoteAddr:String,
+                      remoteUser:String,
+                      timeLocal:String,
+                      method:String,
+                      request:String,
+                      httpVersion:String,
+                      status:Int,
+                      bodyBytesSent:Int,
+                      httpReferer:String,
+                      httpUserAgent:String,
+                      httpXForwardedFor:String)
 
   // 194.237.142.21 - - [19/Sep/2013:06:26:36 +0000] "GET /wp-content/uploads/2013/07/rstudio-login.png HTTP/1.1" 304 0 "-" "Mozilla/4.0 (compatible;)"
   /**
@@ -60,7 +58,6 @@ object ConversionUtil {
   def convertAccessLog(line:String):AccessLog={
     var arr = line.split(" - ")
     val remoteAddr = arr(0)
-    /**
     var remain = arr(1)
     arr = remain.split("\\[|\\]", 3)
     val timeLocalTmp = arr(1)
@@ -90,8 +87,7 @@ object ConversionUtil {
     val httpReferer = arr(3)
     val userAgent = arr(5)
     return AccessLog(remoteAddr,null,timeLocal,method,request,httpVersion,status,bodyBytesSent,httpReferer,userAgent,null)
-      */
-    return AccessLog(remoteAddr)
+//    return AccessLog(remoteAddr)
   }
 
   def convertStrToDate(str:String, pattern:String, locale:Locale=Locale.CHINESE):Date={
