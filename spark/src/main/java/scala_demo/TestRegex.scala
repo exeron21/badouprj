@@ -1,3 +1,5 @@
+package scala_demo
+
 object TestRegex {
 
   def main(args: Array[String]): Unit = {

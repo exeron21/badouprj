@@ -1,3 +1,5 @@
+package scala_demo
+
 object ScalaLCS {
   def main(args: Array[String]): Unit = {
 

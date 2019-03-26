@@ -18,9 +18,9 @@ object UdfObject1 {
     }
   }
 
-  def pSort2 (x:DenseVector):Int = {
+  def pSort2 (x:DenseVector):Double = {
     val tmp = x.toArray
-    tmp.zipWithIndex.sortWith(_._1 > _._1).array(0)._2
+    tmp.zipWithIndex.sortWith(_._1 > _._1).array(0)._1
   }
 
 }

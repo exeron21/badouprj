@@ -1,3 +1,5 @@
+package scala_demo
+
 import org.apache.spark.{SparkConf, SparkContext}
 
 object ScalaPI {

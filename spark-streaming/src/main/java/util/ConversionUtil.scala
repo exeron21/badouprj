@@ -3,7 +3,6 @@ package util
 import java.text.SimpleDateFormat
 import java.util.{Date, Locale}
 
-import scala.beans.BeanProperty
 
 /**
   *
@@ -32,20 +31,18 @@ import scala.beans.BeanProperty
   *
   */
 object ConversionUtil {
-  case class AccessLog(remoteAddr:String)
-  /**
-  case class AccessLog(@BeanProperty var remoteAddr:String,
-                      @BeanProperty var remoteUser:String,
-                      @BeanProperty var timeLocal:String,
-                      @BeanProperty var method:String,
-                      @BeanProperty var request:String,
-                      @BeanProperty var httpVersion:String,
-                      @BeanProperty var status:Int,
-                      @BeanProperty var bodyBytesSent:Int,
-                      @BeanProperty var httpReferer:String,
-                      @BeanProperty var httpUserAgent:String,
-                      @BeanProperty var httpXForwardedFor:String)
-               */
+//  case class AccessLog(remoteAddr:String)
+  case class AccessLog(remoteAddr:String,
+                      remoteUser:String,
+                      timeLocal:String,
+                      method:String,
+                      request:String,
+                      httpVersion:String,
+                      status:Int,
+                      bodyBytesSent:Int,
+                      httpReferer:String,
+                      httpUserAgent:String,
+                      httpXForwardedFor:String)
 
   // 194.237.142.21 - - [19/Sep/2013:06:26:36 +0000] "GET /wp-content/uploads/2013/07/rstudio-login.png HTTP/1.1" 304 0 "-" "Mozilla/4.0 (compatible;)"
   /**
@@ -60,12 +57,11 @@ object ConversionUtil {
   def convertAccessLog(line:String):AccessLog={
     var arr = line.split(" - ")
     val remoteAddr = arr(0)
-    /**
     var remain = arr(1)
     arr = remain.split("\\[|\\]", 3)
     val timeLocalTmp = arr(1)
-    val date = convertStrToDate(timeLocalTmp, "dd/MMM/yyyy:hh:mm:ss Z", Locale.ENGLISH)
-    val timeLocal = convertDateToStr(date, "yyyy-MM-dd:hh:mm:ss", Locale.CHINESE)
+    val date = convertStrToDate(timeLocalTmp)
+    val timeLocal = convertDateToStr(date)
     arr = remain.split("\"")
     remain = arr(1)
     val request_ = remain.split(" ")
@@ -90,17 +86,19 @@ object ConversionUtil {
     val httpReferer = arr(3)
     val userAgent = arr(5)
     return AccessLog(remoteAddr,null,timeLocal,method,request,httpVersion,status,bodyBytesSent,httpReferer,userAgent,null)
-      */
-    return AccessLog(remoteAddr)
+//    return AccessLog(remoteAddr)
   }
 
-  def convertStrToDate(str:String, pattern:String, locale:Locale=Locale.CHINESE):Date={
-    val sdf:SimpleDateFormat = new SimpleDateFormat(pattern, locale)
-    return sdf.parse(str)
+  val pattern1 = "dd/MMM/yyyy:hh:mm:ss Z"
+  val pattern2 = "yyyy-MM-dd:hh:mm:ss"
+  val sdf1:SimpleDateFormat = new SimpleDateFormat(pattern1, Locale.ENGLISH)
+  val sdf2:SimpleDateFormat = new SimpleDateFormat(pattern2, Locale.ENGLISH)
+
+  def convertStrToDate(str:String):Date={
+    return sdf1.parse(str)
   }
-  def convertDateToStr(date:Date, pattern:String, locale:Locale):String={
-    val sdf:SimpleDateFormat = new SimpleDateFormat(pattern, locale)
-    return sdf.format(date)
+  def convertDateToStr(date:Date):String={
+    return sdf2.format(date)
   }
 
   /**

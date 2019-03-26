@@ -1,5 +1,6 @@
 package streaming
 
+import com.alibaba.fastjson.JSONObject
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD
@@ -19,7 +20,7 @@ object AccessLogHandler {
 //    Logger.getLogger("org.apache.hive").setLevel(Level.ERROR)
 
     val zk = Array("master", "slave1", "slave2").map(_ + ":2181").mkString(",")
-    val groupId = "g1"
+    val groupId = "g2"
     val topicSet = "streaming".split(",").toSet
     val topics = topicSet.map((_, 2)).toMap
     val lines = KafkaUtils.createStream(ssc, zk, groupId, topics).map(_._2)
@@ -43,12 +44,14 @@ object AccessLogHandler {
       }).toDF()
     }
 
-   /* lines.foreachRDD(rdd=>{
-      val df = toDF(rdd)
+
+
+   lines.foreachRDD(rdd=>{
+      val df = rddToDataFrame(rdd)
       println("writing badou.accesslog")
 
       df.write.mode(SaveMode.Append).insertInto("badou.accesslog")
-    })*/
+    })
     val haha = lines.map(x=>{
       val arr = x.toString().split(" ")
       (arr(0), 1L)
@@ -60,13 +63,7 @@ object AccessLogHandler {
         .enableHiveSupport()
         .getOrCreate()
     haha.print()
-    case class Hello (a:String,b:Int)
-    import spark.implicits._
-    val df = haha.foreachRDD(x=>{
-      x.map(y=>{
-        Hello(y(0),y(1))
-      }).toDF()
-    })
+
 
 //    haha.map(_._2).reduce(_+_).print()
     // streaming更新变量状态的方法二：
