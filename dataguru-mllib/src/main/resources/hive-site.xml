@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>com.mysql.jdbc.Driver</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://master:3306/hive?useUnicode=true</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>hdp</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>hadoop</value>
+  </property>
+  <property>
+    <name>hive.exec.local.scratchdir</name>
+    <value>/home/hdp/hive</value>
+  </property>
+  <property>
+    <name>hive.downloaded.resources.dir</name>
+    <value>/home/hdp/hive/${hive.session.id}_resources</value>
+  </property>
+  <property>
+    <name>hive.querylog.location</name>
+    <value>/home/hdp/hive/${system:user.name}</value>
+    <description>Location of Hive run time structured log file</description>
+  </property>
+  <property>
+    <name>hive.server2.logging.operation.log.location</name>
+    <value>/home/hdp/hive/${system:user.name}/operation_logs</value>
+  </property>
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>/user/hive/warehouse</value>
+    <description>location of default database for the warehouse</description>
+  </property>
+</configuration>
