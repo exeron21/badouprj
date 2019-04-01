@@ -40,10 +40,13 @@ object UserBase2 {
     val dfm3 = dfm2.selectExpr("user_id as user_id2", "rating2 as rating3")
 
     val dfSim = dfjoinsum.join(dfm2, "user_id").join(dfm3, "user_id2").selectExpr("user_id", "user_id2", "rating1/(rating2 * rating3)")
-
-    dfSim.rdd.map(x=>(x(0).toString,(x(1).toString, x(2).toString)))
+    udata.rdd.map(x=>{
+      
+    })
+    val result = dfSim.rdd.map(x=>(x(0).toString,(x(1).toString, x(2).toString)))
       .groupByKey().mapValues(x=>{
       x.toArray.sortWith((x,y)=>x._2>y._2).slice(0,10)
-    }).flatMapValues(x=>x).toDF("")
+    }).flatMapValues(x=>x).toDF("user_id", "user_rating")
+    val re1 = result.selectExpr("user_id", "user_rating._1", "user_rating._2")
   }
 }
