@@ -1,5 +1,6 @@
 package sparkml
 
+import org.apache.spark.ml.feature.{OneHotEncoder, StringIndexer}
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.sql.SparkSession
 
@@ -16,6 +17,16 @@ object LinearRegressionDemo {
       .option("header", "true")
       .csv(path)
     data.show(100)
+    val stringIndexer = new StringIndexer()
+      .setInputCol("col")
+      .setOutputCol("features")
+      .setHandleInvalid("skip")
+
+    val oneHotEncoder = new OneHotEncoder()
+      .setInputCol("features")
+      .setOutputCol("col1")
+      .setDropLast(false)
+
     val lr = new LinearRegression().setMaxIter(10)
       .setRegParam(0.01)
     val Array(trainData, testData) = data.randomSplit(Array(0.8, 0.2))

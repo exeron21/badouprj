@@ -4,7 +4,7 @@ import org.apache.spark.ml.feature.{OneHotEncoder, StringIndexer}
 import org.apache.spark.sql.SparkSession
 
 
-object OneHotEncoder {
+object OneHotEncoderDemo {
 
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()

@@ -2,7 +2,7 @@ package sparkml
 import org.apache.spark.ml.feature.StringIndexer
 import org.apache.spark.sql.SparkSession
 
-object StringIndexer {
+object StringIndexerDemo {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession
       .builder().appName("HashingTFDemo")
