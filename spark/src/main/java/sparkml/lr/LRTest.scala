@@ -1,10 +1,10 @@
-package sparkml
+package sparkml.lr
 
 import badou.c05.SimpleFeature
 import org.apache.spark.ml.classification.{BinaryLogisticRegressionSummary, LogisticRegression}
 import org.apache.spark.ml.feature.RFormula
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions._
+import org.apache.spark.sql.functions.lit
 
 object LRTest {
   def main(args: Array[String]): Unit = {
@@ -59,7 +59,6 @@ object LRTest {
 
     val op = orders.join(priors, "order_id") // eval_set 全是prior, 条数32434489
     val optrain = orders.join(trains, "order_id") // eval_set 全是test, 条数1384617
-    import spark.implicits._
 
     /**
       * scala> user_recall.count
@@ -92,7 +91,7 @@ object LRTest {
 
     val lr = new LogisticRegression().setMaxIter(10).setRegParam(0)
 
-    var Array(trainingData, testData) = df.randomSplit(Array(0.7, 0.3))
+    val Array(trainingData, testData) = df.randomSplit(Array(0.7, 0.3))
 
     val lrModel = lr.fit(trainingData)
 

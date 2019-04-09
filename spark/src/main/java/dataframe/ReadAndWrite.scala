@@ -8,17 +8,37 @@ import scala.beans.BeanProperty
 
 object ReadAndWrite {
   case class Person(@BeanProperty id:Int, @BeanProperty name:String)
+
+  def test(spark:SparkSession, path:String):DataFrame= {
+    val df = spark.read
+      .option("header", "true")
+      .option("sep", "\t")
+      .option("inferSchema", "true") // inferSchema .. 自动判断数据类型... 默认是false, 如果是false,读文件生成的字段都是字符型的.
+      .csv("file:///E:\\data\\rating")
+    df.write.mode(SaveMode.Overwrite).json("file:///E:\\data\\rating.json")
+    return df
+  }
+  def readFromJson(spark: SparkSession, path: String) = {
+    spark.read.json(path)
+  }
+
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder()
       .master("local[*]")
       .appName("writeToHive")
-      .enableHiveSupport()
+//      .enableHiveSupport()
+      .config("spark.sql.warehouse.dir", "file:///e:/data/")
       .getOrCreate()
     val sc = spark.sparkContext
     println("sc.version = " + sc.version)
     sc.setLogLevel("WARN")
-//    val df = readFromHdfsCsv(spark, "/data/person.txt")
-    val df = readFromDb(spark)
+//    val df = readFromJson(spark, "/data/person.txt")
+//    val df = readFromDb(spark)
+
+//    val df = test(spark, null)
+
+    val df = readFromJson(spark, "E:\\data\\rating1.json")
+
     print(df.na)
     df.printSchema()
     df.show()

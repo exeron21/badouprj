@@ -1,10 +1,9 @@
-package sparkml
+package sparkml.lr
 
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types._
-
+import org.apache.spark.sql.types.{DoubleType, StructField, StructType}
 
 object SparkMlDemo1 {
   def main(args: Array[String]): Unit = {
@@ -63,8 +62,7 @@ object SparkMlDemo1 {
 
     println("===========================")
 
-    val lr = new LinearRegression
-    lr.setMaxIter(10)
+    val lr = new LinearRegression().setMaxIter(10)
     // 通过线性回归拟合训练数据，生成模型
     val model = lr.fit(trainingDF)
 
