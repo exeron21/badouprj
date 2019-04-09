@@ -1,10 +1,15 @@
 package sparkml
+<<<<<<< HEAD
 
 import org.apache.spark.ml.feature.{StringIndexer, VectorAssembler}
+=======
+import org.apache.spark.ml.feature.StringIndexer
+>>>>>>> origin/master
 import org.apache.spark.sql.SparkSession
 
 object StringIndexerDemo {
   def main(args: Array[String]): Unit = {
+<<<<<<< HEAD
     val spark = SparkSession.builder()
       .master("local[*]")
       .appName("StringIndexerDemo")
@@ -38,4 +43,31 @@ object StringIndexerDemo {
     println("------------")
     dataDF.show()
   }
+=======
+    val spark = SparkSession
+      .builder().appName("HashingTFDemo")
+      .master("local[2]")
+      .config("spark.sql.warehouse.dir", "file:///E:/data/spark-warehouse")
+      .getOrCreate()
+
+    val df = spark.createDataFrame(
+      Seq(
+        (0, "a"),
+        (1, "b"),
+        (2, "c"),
+        (3, "a"),
+        (4, "a"),
+        (5, "c")
+      )
+    ).toDF("id", "category")
+
+    val indexer = new StringIndexer()
+      .setInputCol("category")
+      .setOutputCol("categoryIndex")
+
+    val indexed = indexer.fit(df).transform(df)
+    indexed.show()
+  }
+
+>>>>>>> origin/master
 }
