@@ -1,4 +1,5 @@
-package sparkml
+package sparkml.features.extractor
+
 import org.apache.spark.ml.feature.{HashingTF, IDF, Tokenizer}
 import org.apache.spark.sql.SparkSession
 

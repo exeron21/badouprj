@@ -89,6 +89,9 @@ object LRTest {
       .transform(train)
       .select("features", "label")
 
+    val params = rformula.explainParams()
+    println(params)
+
     val lr = new LogisticRegression().setMaxIter(10).setRegParam(0)
 
     val Array(trainingData, testData) = df.randomSplit(Array(0.7, 0.3))

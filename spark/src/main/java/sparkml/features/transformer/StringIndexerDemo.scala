@@ -1,7 +1,6 @@
-package sparkml
+package sparkml.features.transformer
 
 import org.apache.spark.ml.feature.{StringIndexer, VectorAssembler}
-import org.apache.spark.ml.feature.StringIndexer
 import org.apache.spark.sql.SparkSession
 
 object StringIndexerDemo {

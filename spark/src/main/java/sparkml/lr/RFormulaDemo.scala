@@ -33,8 +33,9 @@ object RFormulaDemo {
     val dataset = createDataFrameFromHardCode(spark)
     /**
       * country列6个不同取值时候占了五个维度  五个不同取值时候占了四个维度
-      * 四个不同取值时候占了三个维度  三个不同取值占了两维度  两个不同取值占
-      * 了一个维度，另外我们还操作了非StringType类型的hour 和 count列 因此*在country列所占维度基础上 再加上两个维度，就是所形成的新列features
+      * 四个不同取值时候占了三个维度  三个不同取值占了两维度  两个不同取值占了一个维度
+      * 另外我们还操作了非StringType类型的hour和count列
+      * 因此在country列所占维度基础上 再加上两个维度，就是所形成的新列features
       * 该列值是一个向量  由上面组成的维度构成
       */
     val formula = new RFormula().setFormula("clicked ~ country").setFeaturesCol("features").setLabelCol("label")

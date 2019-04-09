@@ -1,7 +1,8 @@
-package sparkml
+package sparkml.features.transformer
 
 import org.apache.spark.ml.feature.StopWordsRemover
 import org.apache.spark.sql.SparkSession
+
 object StopWordsRemover {
   def main(args: Array[String]): Unit = {
 
