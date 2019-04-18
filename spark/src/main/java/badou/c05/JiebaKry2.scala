@@ -29,7 +29,7 @@ object JiebaKry2 {
         val segV = seg.value
         segV.process(sentence.toString(), SegMode.INDEX)
       }
-      return null
+      null
     }
   }
 }
