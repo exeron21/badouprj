@@ -30,58 +30,33 @@ object BayesTest {
       df.withColumn("seg", jiebaUdf(col(column)))
     }
 
-    val df = ss.sql("select * from badou.news_noseg")
+    val df = ss.sql("select * from badou.news_seg")
     df.show()
-    //    调用结巴对新闻进行切词
-    val df_seg = jiebaSeg(df,"sentence").select("seg","label")
-    df_seg.show()
-
-//    val df = ss.sql("select * from badou.news_seg1")
-//    df.show()
     import ss.implicits._
-    val df1 = df.rdd.map(x=>{val sen = x(0).toString.split(" ");(sen, x(1).toString)}).toDF("sentence", "label")
-    val dfSeg = jiebaSeg(df, "sentence").select("seg", "label")
-
-    // HashingTF是SparkML的一个Transformer，用途是对输入的词进行hash编码和TF统计
-    // 用binary方式统计词频，只要出现过就是1，没出现过为0. 与之对应的是多项式统计（出现多少次就是多少）
+    val df1 = df.rdd.map(x=>{val sen = x(2).toString.split(" ");(x(0).toString+x(1).toString, x(1).toString, sen)}).toDF("idx", "label", "sentence")
+    // HashingTF:transformer
     val tf = new HashingTF().setBinary(false).setInputCol("sentence").setOutputCol("rawFeatures")
-
-    val dfTf = tf.transform(dfSeg).select("rawFeatures", "label")
-    dfTf.show()
-    // IDF是SparkML的一个Estimator，用途是统计IDF反文档频率
+    // IDF:Estimator
     val idf = new IDF().setInputCol("rawFeatures").setOutputCol("features").setMinDocFreq(1)
-
-    val idfModel = idf.fit(dfTf) // estimator必须要fit
-
-    val dfTfidf = idfModel.transform(dfTf).select("features", "label")
-    dfTfidf.show()
-
-    // StringIndexer也是Estimator
+    // StringIndexer:Estimator
     val stringIndexer = new StringIndexer().setInputCol("label").setOutputCol("indexed").setHandleInvalid("error")
-
-    val dfTfidfLab = stringIndexer.fit(dfTfidf).transform(dfTfidf)
-    dfTfidfLab.show()
-
+    // NaiveBayes: Estimator
+    val nb = new NaiveBayes().setModelType("multinomial").setSmoothing(1.0).setFeaturesCol("features").setLabelCol("indexed").setPredictionCol("pred_label").setProbabilityCol("prob").setRawPredictionCol("rawPred")
     val Array(train, test) = df1.randomSplit(Array(0.8, 0.2))
 
-    // multinomial 多项式
-    val nb = new NaiveBayes().setModelType("multinomial").setSmoothing(1.0).setFeaturesCol("features").setLabelCol("indexed").setPredictionCol("pred_label").setProbabilityCol("prob").setRawPredictionCol("rawPred")
-
-    val nbModel = nb.fit(train)
+    val dfTf = tf.transform(df1)
+    val dfIdf = idf.fit(dfTf).transform(dfTf)
+    val dfSi = stringIndexer.fit(dfIdf).transform(dfIdf)
+    val Array(train2, test2) = dfSi.randomSplit(Array(0.8, 0.2))
+    val dfNb = nb.fit(train2).transform(test2)
     val pipeLine = new Pipeline()
     pipeLine.setStages(Array(tf, idf, stringIndexer,nb))
-    val model = pipeLine.fit(train).transform(train)
+    val model = pipeLine.fit(train2.select("idx", "sentence","label")).transform(test2.select("idx","sentence","label"))
 
     // 评估方式, 模型评估f1:
-    val eval = new MulticlassClassificationEvaluator()
-      .setLabelCol("indexed")
-      .setPredictionCol("pred_label")
-      .setMetricName("f1")
+    val eval = new MulticlassClassificationEvaluator().setLabelCol("indexed").setPredictionCol("pred_label").setMetricName("f1")
 
     val f1Score = eval.evaluate(model)
     println("Test f1 score = " + f1Score)
-
-    nbModel.save(modelPath)
-    println(s"bayes model saved: $modelPath")
   }
 }
