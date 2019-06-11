@@ -1,10 +1,10 @@
 package lr
 
-import badou.c05.SimpleFeature
 import org.apache.spark.ml.classification.{BinaryLogisticRegressionSummary, LogisticRegression}
 import org.apache.spark.ml.feature.RFormula
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.lit
+import util.SimpleFeature
 
 object LRTest {
   def main(args: Array[String]): Unit = {

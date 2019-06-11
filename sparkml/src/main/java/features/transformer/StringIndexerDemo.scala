@@ -33,7 +33,8 @@ object StringIndexerDemo {
     val transForm = fitDF.transform(data)
     transForm.show()
 
-    val vector = new VectorAssembler().setInputCols(Array("id", "name")).setOutputCol("features")
+    val vector = new VectorAssembler().setInputCols(Array("index_name")).setOutputCol("features")
+//    val vector = new VectorAssembler().setInputCols(Array("id", "name")).setOutputCol("features")
     val dataDF = vector.transform(transForm)
     println("------------")
     dataDF.show()

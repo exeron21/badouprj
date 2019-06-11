@@ -41,13 +41,12 @@ object FeatureTest {
     for (cate <- categoricalColumns) {
       /** 使用StringIndexer 建立类别索引 */
       val indexer = new StringIndexer().setInputCol(cate).setOutputCol(s"${cate}Index").setHandleInvalid("skip").fit(data)
-      println(indexer.explainParams())
+//      println(indexer.explainParams())
       /** 使用OneHotEncoder将分类变量转换为二进制稀疏向量 */
       val encoder = new OneHotEncoder().setInputCol(indexer.getOutputCol).setOutputCol(s"${cate}classVec")
       stagesArray.append(indexer, encoder)
     }
 
-    System.exit(0)
 
     ////////////////////////////
 
@@ -72,7 +71,7 @@ object FeatureTest {
     ///////////////////
     println("分割数据集")
     /**随机分割测试集和训练集数据，指定seed可以固定数据分配*/
-    val Array(trainingDF, testDF) = dataset.randomSplit(Array(0.6, 0.4), seed = 12345)
+    val Array(trainingDF, testDF) = dataset.randomSplit(Array(0.8, 0.2), seed = 12345)
     println(s"trainingDF size=${trainingDF.count()},testDF size=${testDF.count()}")
     println("生成lr模型")
     val lrModel = new LogisticRegression()
@@ -82,7 +81,7 @@ object FeatureTest {
     import spark.implicits._
     val predictions = lrModel.transform(testDF).select($"affairs".as("label"), $"features", $"rawPrediction", $"probability", $"prediction")
     println("模型预测结果：")
-    predictions.show(200,truncate = false)
+    predictions.show(600,truncate = false)
     println(s"lrModel.coefficients: ${lrModel.coefficients}, intercept: ${lrModel.intercept}")
     /**使用BinaryClassificationEvaluator来评价我们的模型。在metricName参数中设置度量。*/
     val evaluator = new BinaryClassificationEvaluator()
@@ -99,7 +98,7 @@ object FeatureTest {
 
     val trainingSummary = lrSummary.asInstanceOf[BinaryLogisticRegressionSummary]
     val trainingSummaryRoc = trainingSummary.roc
-    trainingSummaryRoc.show(200)
+    trainingSummaryRoc.show(600)
     val auc2 = trainingSummary.areaUnderROC
     println(s"trainingSummary.areaUnderROC: $auc2")
   }

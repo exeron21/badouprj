@@ -1,6 +1,6 @@
 package features.selector
 
-import java.util.Arrays
+import java.util
 
 import org.apache.spark.ml.attribute.{Attribute, AttributeGroup, NumericAttribute}
 import org.apache.spark.ml.feature.VectorSlicer
@@ -16,7 +16,7 @@ object VectorSlicesDemo {
       .config("spark.sql.warehouse.dir", "file:///E:/data/spark-warehouse")
       .getOrCreate()
 
-    val data = Arrays.asList(Row(Vectors.dense(-2.0, 2.3, 0.0)))
+    val data = util.Arrays.asList(Row(Vectors.dense(-2.0, 2.3, 0.0)))
 
     val defaultAttr = NumericAttribute.defaultAttr
     val attrs = Array("f1", "f2", "f3").map(defaultAttr.withName)
