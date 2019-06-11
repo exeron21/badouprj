@@ -1,4 +1,4 @@
-package sparkml.lr
+package lr
 
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.mllib.linalg.Vectors

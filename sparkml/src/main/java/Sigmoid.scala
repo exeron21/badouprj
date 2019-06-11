@@ -1,5 +1,3 @@
-package sparkml
-
 import breeze.numerics.exp
 
 object Sigmoid {

@@ -1,4 +1,4 @@
-package sparkml.features.selector
+package features.selector
 
 import java.util.Arrays
 

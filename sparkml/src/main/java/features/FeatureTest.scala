@@ -1,4 +1,4 @@
-package sparkml.features
+package features
 
 import org.apache.spark.ml.classification.{BinaryLogisticRegressionSummary, LogisticRegression}
 import org.apache.spark.ml.evaluation.BinaryClassificationEvaluator

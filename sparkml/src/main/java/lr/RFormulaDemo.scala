@@ -1,4 +1,4 @@
-package sparkml.lr
+package lr
 
 import org.apache.spark.ml.classification.{BinaryLogisticRegressionSummary, LogisticRegression}
 import org.apache.spark.ml.feature.RFormula

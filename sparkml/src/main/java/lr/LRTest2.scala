@@ -1,4 +1,4 @@
-package sparkml.lr
+package lr
 
 import badou.c05.SimpleFeature2
 import org.apache.spark.ml.classification.{BinaryLogisticRegressionSummary, LogisticRegression}

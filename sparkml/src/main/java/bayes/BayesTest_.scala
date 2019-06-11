@@ -1,4 +1,4 @@
-package sparkml.bayes
+package bayes
 
 import com.huaban.analysis.jieba.{JiebaSegmenter, SegToken}
 import com.huaban.analysis.jieba.JiebaSegmenter.SegMode

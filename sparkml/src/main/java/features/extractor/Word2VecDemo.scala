@@ -1,4 +1,4 @@
-package sparkml.features.extractor
+package features.extractor
 
 import org.apache.spark.ml.feature.Word2Vec
 import org.apache.spark.sql.SparkSession

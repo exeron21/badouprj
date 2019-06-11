@@ -1,5 +1,3 @@
-package sparkml
-
 import org.apache.spark.ml.feature.RFormula
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.sql.SparkSession
