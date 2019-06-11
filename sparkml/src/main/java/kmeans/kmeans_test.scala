@@ -64,6 +64,12 @@ object kmeans_test {
     val cent = model.clusterCenters
     print(cent.length)
     // 就算是toSparse了（转换为稠密向量），还是有相当多的值，为什么？
+    /**
+      *  如果有500篇文章，每篇文章有500个词，那么词的总数会相当多，比如3000个词
+      *  那么对每篇文章都会有一个3000长度的向量，对单个向量转换为稠密向量会小很多，但是中心点是所有向量加到一起计算的，
+      *  就算转换为稠密向量也不会小很多甚至和转换之前一样
+      */
+    // [0 1 1 1 0 0 0 0 0 0 0 ... ](3000)
     cent.map(x=>x.toSparse).foreach(println)
   }
 }
